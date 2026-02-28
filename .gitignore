@@ -1,0 +1,10 @@
+installer/
+__pycache__/
+*.pyc
+venv/
+.env
+.DS_Store
+node_modules/
+dist/
+build/
+*.egg-info/
