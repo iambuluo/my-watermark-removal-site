@@ -5,7 +5,8 @@ os.environ["TORCH_HOME"] = "/tmp/torch"
 os.environ["XDG_CACHE_HOME"] = "/tmp/cache"
 
 from fastapi import FastAPI, UploadFile, File, Form, HTTPException
-from fastapi.responses import Response
+from fastapi.responses import Response, FileResponse
+from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
 import torch
 import cv2
@@ -19,6 +20,17 @@ from .schema import InpaintRequest
 from .utils import load_img, pil_to_bytes, concat_alpha_channel
 
 app = FastAPI()
+
+# Mount static files
+app.mount("/public", StaticFiles(directory="public"), name="public")
+
+@app.get("/")
+async def read_index():
+    return FileResponse('public/index.html')
+
+@app.get("/script.js")
+async def read_script():
+    return FileResponse('public/script.js')
 
 # Add CORS
 app.add_middleware(
